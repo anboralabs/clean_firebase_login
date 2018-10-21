@@ -1,4 +1,4 @@
-package co.anbora.labs.cleanlogin.device.auth.controller
+package co.anbora.labs.cleanlogin.domain.auth.controller
 
 import co.anbora.labs.cleanlogin.domain.model.User
 

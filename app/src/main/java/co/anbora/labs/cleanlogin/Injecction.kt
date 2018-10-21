@@ -1,18 +1,19 @@
 package co.anbora.labs.cleanlogin
 
 import android.app.Activity
-import co.anbora.labs.cleanlogin.device.auth.Auth
-import co.anbora.labs.cleanlogin.device.auth.AuthImpl
-import co.anbora.labs.cleanlogin.device.auth.controller.AuthController
-import co.anbora.labs.cleanlogin.device.auth.controller.firebase.FirebaseAuthControllerImpl
+import co.anbora.labs.cleanlogin.domain.auth.service.Auth
+import co.anbora.labs.cleanlogin.device.auth.service.firebase.AuthGoogle
+import co.anbora.labs.cleanlogin.domain.auth.controller.AuthController
+import co.anbora.labs.cleanlogin.device.auth.controller.firebase.GoogleAuthController
 import co.anbora.labs.cleanlogin.device.auth.model.ActivityResult
+import co.anbora.labs.cleanlogin.domain.auth.controller.AuthCallback
 import com.google.firebase.auth.FirebaseAuth
 
-fun provideFirebaseAuthController(activityResult: ActivityResult, mAuth: FirebaseAuth): AuthController {
-    return FirebaseAuthControllerImpl(activityResult, mAuth)
+fun provideFirebaseAuthController(activityResult: ActivityResult, mAuth: FirebaseAuth, callback: AuthCallback): AuthController {
+    return GoogleAuthController(activityResult, mAuth, callback)
 }
 
 fun provideLoginAuthService(context: Activity, defaultWebClientId: String): Auth {
-    return AuthImpl(context, defaultWebClientId)
+    return AuthGoogle(context, defaultWebClientId)
 }
 

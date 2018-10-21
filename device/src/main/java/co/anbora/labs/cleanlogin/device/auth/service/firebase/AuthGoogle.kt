@@ -1,20 +1,17 @@
-package co.anbora.labs.cleanlogin.device.auth
+package co.anbora.labs.cleanlogin.device.auth.service.firebase
 
 import android.app.Activity
-import co.anbora.labs.cleanlogin.device.auth.controller.AuthCallback
-import co.anbora.labs.cleanlogin.device.auth.controller.AuthController
+import co.anbora.labs.cleanlogin.domain.auth.AuthEnum
+import co.anbora.labs.cleanlogin.domain.auth.service.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 
 
-
-class AuthImpl : Auth {
+class AuthGoogle : Auth {
 
     private val context: Activity
 
-    //Google Login Request Code
-    private val RC_SIGN_IN = 7
     //Google Sign In Client
     private val mGoogleSignInClient: GoogleSignInClient
 
@@ -31,11 +28,6 @@ class AuthImpl : Auth {
 
     override fun loginRequest() {
         val signInIntent = mGoogleSignInClient.signInIntent
-        context.startActivityForResult(signInIntent, RC_SIGN_IN)
+        context.startActivityForResult(signInIntent, AuthEnum.GOOGLE.authValue)
     }
-
-    override fun login(controller: AuthController, callback: AuthCallback) {
-        controller.login(RC_SIGN_IN, callback)
-    }
-
 }

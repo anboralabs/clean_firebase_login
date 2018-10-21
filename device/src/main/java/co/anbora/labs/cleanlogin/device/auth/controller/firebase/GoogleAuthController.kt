@@ -2,9 +2,10 @@ package co.anbora.labs.cleanlogin.device.auth.controller.firebase
 
 import android.app.Activity
 import android.content.Intent
-import co.anbora.labs.cleanlogin.device.auth.controller.AuthCallback
-import co.anbora.labs.cleanlogin.device.auth.controller.AuthController
+import co.anbora.labs.cleanlogin.domain.auth.controller.AuthCallback
+import co.anbora.labs.cleanlogin.domain.auth.controller.AuthController
 import co.anbora.labs.cleanlogin.device.auth.model.ActivityResult
+import co.anbora.labs.cleanlogin.domain.auth.AuthEnum
 import co.anbora.labs.cleanlogin.domain.model.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -12,7 +13,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
-class FirebaseAuthControllerImpl: AuthController {
+class GoogleAuthController: AuthController {
 
     private val requestCode: Int
     private val data: Intent
@@ -21,35 +22,42 @@ class FirebaseAuthControllerImpl: AuthController {
     //Firebase Auth
     private val mAuth: FirebaseAuth
 
-    constructor(activityResult: ActivityResult, mAuth: FirebaseAuth) {
+    private val callback: AuthCallback
+
+    constructor(activityResult: ActivityResult, mAuth: FirebaseAuth, callback: AuthCallback) {
 
         this.context = activityResult.context
         this.requestCode = activityResult.requestCode
         this.data = activityResult.data
         this.mAuth = mAuth
+
+        this.callback = callback
     }
 
-    override fun login(requestCode: Int, callback: AuthCallback) {
-        if (this.requestCode == requestCode) {
+    override fun login() {
+        if (this.requestCode == AuthEnum.GOOGLE.authValue) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                firebaseAuthWithGoogle(account, callback)
+                fireBaseAuthWithGoogle(account, callback)
             } catch (e: ApiException) {
                 callback.onError()
             }
         }
     }
 
-    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount, callback: AuthCallback) {
+    private fun fireBaseAuthWithGoogle(acct: GoogleSignInAccount, callback: AuthCallback) {
 
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(context) { task ->
                     if (task.isSuccessful) {
 
-                        mAuth.currentUser!!.let {
-                            val user = User(it.uid, it.displayName)
+                        mAuth.currentUser?.let {
+                            val user = User.Builder()
+                                    .id(it.uid)
+                                    .name(it.displayName)
+                                    .build()
                             callback.onSuccess(user)
                         }
                     } else {
