@@ -1,4 +1,4 @@
-package co.anbora.labs.cleanlogin.device.auth.controller.firebase
+package co.anbora.labs.cleanlogin.device.auth.controller.google
 
 import android.app.Activity
 import android.content.Intent

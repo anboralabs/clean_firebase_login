@@ -1,4 +1,4 @@
-package co.anbora.labs.cleanlogin.device.auth.service.firebase
+package co.anbora.labs.cleanlogin.device.auth.service.google
 
 import android.app.Activity
 import co.anbora.labs.cleanlogin.domain.auth.AuthEnum
