@@ -14,6 +14,7 @@ import com.facebook.CallbackManager
 import com.facebook.login.widget.LoginButton
 import com.google.android.gms.common.SignInButton
 import com.google.firebase.auth.FirebaseAuth
+import com.twitter.sdk.android.core.identity.TwitterLoginButton
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,6 +43,8 @@ class MainActivity : AppCompatActivity() {
             this.authFactory = provideFacebookAuthFactory(FirebaseAuth.getInstance(), CallbackManager.Factory.create(), this.authCallback)
             this.setAuthService(authFactory)
         }
+
+        val twitterLoginButton = findViewById<TwitterLoginButton>(R.id.twitter_sign_in)
 
     }
 
