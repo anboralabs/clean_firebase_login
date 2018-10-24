@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
 
             this.authFactory = provideGoogleAuthFactory(this, getString(R.string.default_web_client_id), FirebaseAuth.getInstance())
             this.setAuthService(authFactory)
-
         }
 
         val facebookLoginButton = findViewById<LoginButton>(R.id.facebook_sign_in)
@@ -45,6 +44,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         val twitterLoginButton = findViewById<TwitterLoginButton>(R.id.twitter_sign_in)
+        twitterLoginButton.setOnClickListener {
+
+            this.authFactory = provideTwitterAuthFactory(FirebaseAuth.getInstance(), twitterLoginButton, this.authCallback)
+            this.setAuthService(authFactory)
+        }
 
     }
 
