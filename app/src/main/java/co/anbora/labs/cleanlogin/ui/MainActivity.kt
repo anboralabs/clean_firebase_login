@@ -3,6 +3,7 @@ package co.anbora.labs.cleanlogin.ui
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import co.anbora.labs.cleanlogin.*
 import co.anbora.labs.cleanlogin.device.auth.factory.AuthFactory
 import co.anbora.labs.cleanlogin.domain.auth.service.Auth
@@ -47,6 +48,13 @@ class MainActivity : AppCompatActivity() {
         twitterLoginButton.setOnClickListener {
 
             this.authFactory = provideTwitterAuthFactory(FirebaseAuth.getInstance(), twitterLoginButton, this.authCallback)
+            this.setAuthService(authFactory)
+        }
+
+        val anonymousLoginButton = findViewById<Button>(R.id.anonymous_sign_in)
+        anonymousLoginButton.setOnClickListener {
+
+            this.authFactory = provideAnonymousAuthFactory(FirebaseAuth.getInstance(), this.authCallback)
             this.setAuthService(authFactory)
         }
 

@@ -2,6 +2,7 @@ package co.anbora.labs.cleanlogin
 
 import android.app.Activity
 import co.anbora.labs.cleanlogin.device.auth.factory.AuthFactory
+import co.anbora.labs.cleanlogin.device.auth.factory.anonymous.AuthAnonymousFactory
 import co.anbora.labs.cleanlogin.device.auth.factory.facebook.AuthFacebookFactory
 import co.anbora.labs.cleanlogin.device.auth.factory.google.AuthGoogleFactory
 import co.anbora.labs.cleanlogin.device.auth.factory.twitter.AuthTwitterFactory
@@ -20,5 +21,9 @@ fun provideFacebookAuthFactory(mAuth: FirebaseAuth, callbackManager: CallbackMan
 
 fun provideTwitterAuthFactory(mAuth: FirebaseAuth, twitterLoginButton: TwitterLoginButton, callback: AuthCallback): AuthFactory {
     return AuthTwitterFactory(mAuth, twitterLoginButton, callback)
+}
+
+fun provideAnonymousAuthFactory(mAuth: FirebaseAuth, callback: AuthCallback): AuthFactory {
+    return AuthAnonymousFactory(mAuth, callback)
 }
 
