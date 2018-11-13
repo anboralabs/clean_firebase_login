@@ -8,7 +8,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "co.anbora.labs.cleanlogin"
-        minSdkVersion 22
+        minSdkVersion 24
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -49,6 +49,7 @@ dependencies {
 
     implementation project(path: ':device')
     implementation project(path: ':domain')
+    implementation 'com.android.support:design:27.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

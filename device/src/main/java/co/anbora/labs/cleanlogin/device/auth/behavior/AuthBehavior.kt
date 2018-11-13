@@ -1,10 +1,9 @@
 package co.anbora.labs.cleanlogin.device.auth.behavior
 
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.AuthResult
+import com.google.firebase.auth.AuthCredential
 
 interface AuthBehavior {
 
-    fun onLoginComplete(task: Task<AuthResult>)
+    fun onLoginComplete(credential: AuthCredential)
 
 }

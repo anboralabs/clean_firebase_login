@@ -19,9 +19,6 @@ class PhoneAuthController : AuthController {
     }
 
     override fun login() {
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener {
-                    authBehavior.onLoginComplete(it)
-                }
+        authBehavior.onLoginComplete(credential)
     }
 }
