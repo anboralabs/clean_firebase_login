@@ -44,7 +44,7 @@ class GoogleAuthController: AuthController {
                 val account = task.getResult(ApiException::class.java)
                 this.authBehavior.onLoginComplete(GoogleAuthProvider.getCredential(account.idToken, null))
             } catch (e: ApiException) {
-
+                this.authBehavior.onLoginError()
             }
         }
     }
