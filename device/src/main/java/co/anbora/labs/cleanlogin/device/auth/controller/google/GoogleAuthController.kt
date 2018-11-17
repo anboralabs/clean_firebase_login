@@ -2,6 +2,7 @@ package co.anbora.labs.cleanlogin.device.auth.controller.google
 
 import android.app.Activity
 import android.content.Intent
+import co.anbora.labs.cleanlogin.device.auth.behavior.AuthBehavior
 import co.anbora.labs.cleanlogin.domain.auth.controller.AuthCallback
 import co.anbora.labs.cleanlogin.domain.auth.controller.AuthController
 import co.anbora.labs.cleanlogin.device.auth.model.ActivityResult
@@ -22,16 +23,18 @@ class GoogleAuthController: AuthController {
     //Firebase Auth
     private val mAuth: FirebaseAuth
 
-    private val callback: AuthCallback
+    private val authBehavior: AuthBehavior
 
-    constructor(activityResult: ActivityResult, mAuth: FirebaseAuth, callback: AuthCallback) {
+    constructor(activityResult: ActivityResult,
+                mAuth: FirebaseAuth,
+                authBehavior: AuthBehavior) {
 
         this.context = activityResult.context
         this.requestCode = activityResult.requestCode
         this.data = activityResult.data
         this.mAuth = mAuth
 
-        this.callback = callback
+        this.authBehavior = authBehavior
     }
 
     override fun login() {
@@ -39,31 +42,10 @@ class GoogleAuthController: AuthController {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                fireBaseAuthWithGoogle(account, callback)
+                this.authBehavior.onLoginComplete(GoogleAuthProvider.getCredential(account.idToken, null))
             } catch (e: ApiException) {
-                callback.onError()
+
             }
         }
     }
-
-    private fun fireBaseAuthWithGoogle(acct: GoogleSignInAccount, callback: AuthCallback) {
-
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(context) { task ->
-                    if (task.isSuccessful) {
-
-                        mAuth.currentUser?.let {
-                            val user = User.Builder()
-                                    .id(it.uid)
-                                    .name(it.displayName)
-                                    .build()
-                            callback.onSuccess(user)
-                        }
-                    } else {
-                        callback.onError()
-                    }
-                }
-    }
-
 }
