@@ -1,5 +1,6 @@
 package co.anbora.labs.cleanlogin.device.auth.service.facebook
 
+import co.anbora.labs.cleanlogin.device.auth.behavior.AuthBehavior
 import co.anbora.labs.cleanlogin.domain.auth.controller.AuthCallback
 import co.anbora.labs.cleanlogin.domain.auth.service.Auth
 import co.anbora.labs.cleanlogin.domain.model.User
@@ -16,53 +17,31 @@ import com.google.firebase.auth.FirebaseAuth
 class AuthFacebook: Auth {
 
     private val facebookCallbackManager: CallbackManager
-    private val callback: AuthCallback
+    private val authBehavior: AuthBehavior
     private val mAuth: FirebaseAuth
 
-    constructor(mAuth: FirebaseAuth, callbackManager: CallbackManager, callback: AuthCallback) {
+    constructor(mAuth: FirebaseAuth, callbackManager: CallbackManager, authBehavior: AuthBehavior) {
 
         this.mAuth = mAuth
         this.facebookCallbackManager = callbackManager
-        this.callback = callback
+        this.authBehavior = authBehavior
     }
 
     override fun loginRequest() {
         LoginManager.getInstance().registerCallback(facebookCallbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {
                 result?.accessToken?.let {
-                    handleFacebookAccessToken(it, callback)
+                    authBehavior.onLoginComplete(FacebookAuthProvider.getCredential(it.token))
                 }
             }
 
             override fun onCancel() {
-                callback.onError()
+                authBehavior.onLoginError()
             }
 
             override fun onError(error: FacebookException?) {
-                callback.onError()
+                authBehavior.onLoginError()
             }
         })
     }
-
-    private fun handleFacebookAccessToken(token: AccessToken, callback: AuthCallback) {
-
-        val credential = FacebookAuthProvider.getCredential(token.token)
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-
-                        mAuth.currentUser?.let {
-                            val user = User.Builder()
-                                    .id(it.uid)
-                                    .name(it.displayName)
-                                    .build()
-                            callback.onSuccess(user)
-                        }
-                    } else {
-
-                        callback.onError()
-                    }
-                }
-    }
-
 }
