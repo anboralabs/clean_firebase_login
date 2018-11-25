@@ -1,6 +1,8 @@
 package co.anbora.labs.cleanlogin.device.auth.controller.anonymous
 
 import co.anbora.labs.cleanlogin.device.auth.behavior.AnonymousAuthBehavior
+import co.anbora.labs.cleanlogin.device.auth.model.ActivityResult
+import co.anbora.labs.cleanlogin.domain.auth.AuthEnum
 import co.anbora.labs.cleanlogin.domain.auth.controller.AuthController
 import com.google.firebase.auth.FirebaseAuth
 
@@ -8,13 +10,17 @@ class AnonymousAuthController : AuthController {
 
     private val mAuth: FirebaseAuth
     private val authBehavior: AnonymousAuthBehavior
+    private val activityResult: ActivityResult
 
-    constructor(mAuth: FirebaseAuth, authBehavior: AnonymousAuthBehavior) {
+    constructor(mAuth: FirebaseAuth, authBehavior: AnonymousAuthBehavior, activityResult: ActivityResult) {
         this.mAuth = mAuth
         this.authBehavior = authBehavior
+        this.activityResult = activityResult
     }
 
     override fun login() {
-        this.authBehavior.onLoginComplete()
+        if (this.activityResult.requestCode == AuthEnum.ANONYMOUS.authValue) {
+            this.authBehavior.onLoginComplete()
+        }
     }
 }
