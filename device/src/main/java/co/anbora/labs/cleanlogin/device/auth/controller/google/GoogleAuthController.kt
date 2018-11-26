@@ -20,20 +20,14 @@ class GoogleAuthController: AuthController {
     private val data: Intent
     private val context: Activity
 
-    //Firebase Auth
-    private val mAuth: FirebaseAuth
-
     private val authBehavior: AuthBehavior
 
     constructor(activityResult: ActivityResult,
-                mAuth: FirebaseAuth,
                 authBehavior: AuthBehavior) {
 
         this.context = activityResult.context
         this.requestCode = activityResult.requestCode
         this.data = activityResult.data
-        this.mAuth = mAuth
-
         this.authBehavior = authBehavior
     }
 
