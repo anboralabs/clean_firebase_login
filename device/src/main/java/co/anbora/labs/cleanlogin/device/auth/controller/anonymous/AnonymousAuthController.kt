@@ -8,12 +8,11 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AnonymousAuthController : AuthController {
 
-    private val mAuth: FirebaseAuth
     private val authBehavior: AnonymousAuthBehavior
     private val activityResult: ActivityResult
 
-    constructor(mAuth: FirebaseAuth, authBehavior: AnonymousAuthBehavior, activityResult: ActivityResult) {
-        this.mAuth = mAuth
+    constructor(authBehavior: AnonymousAuthBehavior, activityResult: ActivityResult) {
+
         this.authBehavior = authBehavior
         this.activityResult = activityResult
     }
