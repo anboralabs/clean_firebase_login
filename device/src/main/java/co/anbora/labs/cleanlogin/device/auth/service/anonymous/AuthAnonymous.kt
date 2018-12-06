@@ -12,11 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 class AuthAnonymous : Auth {
 
     private val context: Activity
-    private val mAuth: FirebaseAuth
     private val callback: AuthCallback
 
-    constructor(mAuth: FirebaseAuth, callback: AuthCallback, context: Activity) {
-        this.mAuth = mAuth
+    constructor(callback: AuthCallback, context: Activity) {
+
         this.callback = callback
         this.context = context
     }
