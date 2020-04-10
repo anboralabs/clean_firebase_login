@@ -62,12 +62,10 @@ fun provideAuthAnonymousAuthBehavior(): AnonymousAuthBehavior {
     return AnonymousBehavior(FirebaseAuth.getInstance(), provideUserCallback(), provideUserMapper())
 }
 
-fun providePhoneAuthFactory(mAuth: FirebaseAuth,
-                            authPhoneRequest: AuthPhoneRequest,
+fun providePhoneAuthFactory(authPhoneRequest: AuthPhoneRequest,
                             phoneAuthProvider: PhoneAuthProvider,
-                            credential: PhoneAuthCredential,
                             authBehavior: AuthBehavior): AuthFactory {
-    return AuthPhoneFactory(mAuth, authPhoneRequest, phoneAuthProvider, credential, authBehavior)
+    return AuthPhoneFactory(authPhoneRequest, phoneAuthProvider, authBehavior)
 }
 
 fun providePhoneRequestDialog(context: Activity): RequestDialog {
