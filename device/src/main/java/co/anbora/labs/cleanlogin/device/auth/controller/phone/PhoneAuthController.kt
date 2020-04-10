@@ -1,24 +1,23 @@
 package co.anbora.labs.cleanlogin.device.auth.controller.phone
 
 import co.anbora.labs.cleanlogin.device.auth.behavior.AuthBehavior
+import co.anbora.labs.cleanlogin.device.auth.model.AuthPhoneCredential
 import co.anbora.labs.cleanlogin.domain.auth.controller.AuthController
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
 
 
 class PhoneAuthController : AuthController {
 
-    private val mAuth: FirebaseAuth
-    private val credential: PhoneAuthCredential
     private val authBehavior: AuthBehavior
+    private val credential: AuthPhoneCredential
 
-    constructor(mAuth: FirebaseAuth, credential: PhoneAuthCredential, authBehavior: AuthBehavior) {
-        this.mAuth = mAuth
-        this.credential = credential
+    constructor(credential: AuthPhoneCredential, authBehavior: AuthBehavior) {
+
         this.authBehavior = authBehavior
+        this.credential = credential
     }
 
     override fun login() {
-        authBehavior.onLoginComplete(credential)
+        authBehavior.onLoginComplete(PhoneAuthProvider.getCredential(credential.verificationId, credential.code))
     }
 }

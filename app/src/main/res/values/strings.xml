@@ -4,5 +4,13 @@
     <string name="facebook_app_id">1836837696352581</string>
     <string name="fb_login_protocol_scheme">fb1836837696352581</string>
     <string name="anonymous">Login Anonymous</string>
+    <string name="phone_login">Login Telefono</string>
+    <string name="phone_number">Numero de telefono</string>
+    <string name="send_code">Enviar Codigo</string>
+    <string name="phone_code">Codigo de verificacion</string>
+    <string name="validate_code">Validar Codigo</string>
+    <string name="phone_number_login">Login with Phone number</string>
+
+    <string name="cancel">Cancelar</string>
 
 </resources>
