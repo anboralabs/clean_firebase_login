@@ -24,4 +24,9 @@ class CredentialBehavior(val mAuth: FirebaseAuth, val callback: AuthCallback,
                     }
                 }
     }
+
+    override fun onLoginError() {
+
+        callback.onError()
+    }
 }

@@ -6,5 +6,9 @@ enum class AuthEnum(val authValue: Int) {
     FACEBOOK(2),
     TWITTER(3),
     GITHUB(4),
-    ANONYMOUS(5)
+    ANONYMOUS(5),
+    PHONE(6),
+    EMAIL(7),
+    GOOGLE_PLAY(8)
+
 }

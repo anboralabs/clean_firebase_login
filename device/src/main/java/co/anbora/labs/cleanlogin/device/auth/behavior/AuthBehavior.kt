@@ -6,4 +6,6 @@ interface AuthBehavior {
 
     fun onLoginComplete(credential: AuthCredential)
 
+    fun onLoginError()
+
 }

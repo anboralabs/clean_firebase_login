@@ -11,15 +11,17 @@ class AuthPhone : Auth {
     private val phoneNumber: String
     private val context: Activity
     private val mCallbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
+    private val phoneAuthProvider: PhoneAuthProvider
 
-    constructor(authPhoneRequest: AuthPhoneRequest) {
+    constructor(authPhoneRequest: AuthPhoneRequest, phoneAuthProvider: PhoneAuthProvider) {
         this.phoneNumber = authPhoneRequest.phoneNumber
         this.context = authPhoneRequest.context
         this.mCallbacks = authPhoneRequest.phoneAuthCallback
+        this.phoneAuthProvider = phoneAuthProvider
     }
 
     override fun loginRequest() {
-        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+        phoneAuthProvider.verifyPhoneNumber(
                 phoneNumber,
                 60,
                 TimeUnit.SECONDS,

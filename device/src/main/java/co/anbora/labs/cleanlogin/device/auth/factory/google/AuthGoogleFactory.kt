@@ -1,6 +1,7 @@
 package co.anbora.labs.cleanlogin.device.auth.factory.google
 
 import android.app.Activity
+import co.anbora.labs.cleanlogin.device.auth.behavior.AuthBehavior
 import co.anbora.labs.cleanlogin.device.auth.controller.google.GoogleAuthController
 import co.anbora.labs.cleanlogin.device.auth.service.google.AuthGoogle
 import co.anbora.labs.cleanlogin.domain.auth.controller.AuthController
@@ -12,19 +13,23 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AuthGoogleFactory : AuthFactory {
 
-    private val authService: Auth
-    private val mAuth: FirebaseAuth
 
-    constructor(context: Activity, defaultWebClientId: String, mAuth: FirebaseAuth) {
-        authService = AuthGoogle(context, defaultWebClientId)
-        this.mAuth = mAuth
+    private val authBehavior: AuthBehavior
+    private val context: Activity
+    private val defaultWebClientId: String
+
+    constructor(context: Activity, defaultWebClientId: String, authBehavior: AuthBehavior) {
+
+        this.context = context
+        this.defaultWebClientId = defaultWebClientId
+        this.authBehavior = authBehavior
     }
 
     override fun getAuthService(): Auth {
-        return authService
+        return AuthGoogle(context, defaultWebClientId)
     }
 
     override fun getAuthController(activityResult: ActivityResult, callback: AuthCallback): AuthController {
-        return GoogleAuthController(activityResult, mAuth, callback)
+        return GoogleAuthController(activityResult, this.authBehavior)
     }
 }
